@@ -315,3 +315,41 @@ as same as KIMCHI, HARIBO container is made.
 
 ### Test stress
 ![test-stress](./IMAGES/test-stress.jpg)
+
+---
+
+# Automation CLI (`container.sh`)
+
+To easily recreate, test, and clean up the entire lab environment without typing dozens of manual commands each time, an automated CLI script `container.sh` is provided.
+
+### 1. Setup Environment
+Sets up base rootfs, veth networking (KIMCHI 11.11.11.2 <-> HARIBO 11.11.11.3), Cgroups (v1/v2), and OverlayFS mounts:
+```bash
+sudo ./container.sh setup
+```
+
+### 2. Enter Container Shell
+Runs the isolated container shell with UTS, PID, Mount, IPC, and Network namespaces:
+```bash
+# Enter KIMCHI container
+sudo ./container.sh run KIMCHI
+
+# Enter HARIBO container
+sudo ./container.sh run HARIBO
+```
+
+### 3. Test Connectivity
+```bash
+sudo ./container.sh ping-test
+```
+
+### 4. Check Environment Status
+```bash
+sudo ./container.sh status
+```
+
+### 5. Clean up
+Unmounts all OverlayFS directories, cleans cgroups, and removes network namespaces:
+```bash
+sudo ./container.sh clean
+```
